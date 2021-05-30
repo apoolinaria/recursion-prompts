@@ -50,8 +50,9 @@ var arraySum = function(array) {
   }
     // else call each on function that uses Sum
     array.forEach(function(item){
-      return result.concat(arraySum(item))
+      result = result.concat(arraySum(item))
     })
+
     return result.pop()+ arraySum(result)
 };
 
@@ -75,29 +76,48 @@ var isEven = function(n) {
        return isEven(-n)
      }
     //??? not sure I fully understand why the above will take care of negative input?
-    //  is it because minus and minus gives a plus?
+    //  is it because minus and minus gives a plus and we cover negative number to pistive?
 };
 
 // 5. Sum all integers below a given integer.
 // sumBelow(10); // 45
 // sumBelow(7); // 21
 var sumBelow = function(n) {
-  // if the n is 0
+  var negativeN = false;
+  if (n < 0){
+    negativeN = true
+  }
+
+  n = Math.abs(n);
   if (n === 0){
     return 0
   }
-    // return 0
-  // else
-    else {
-      return n - 1 + sumBelow(n-1)
-    }
-    // return n - 1 (9) + call the function n -2
+  if(negativeN)
+    return -(n - 1 + sumBelow(n-1))
+  else
+    return n - 1 + sumBelow(n-1)
 
 };
 
 // 6. Get the integers within a range (x, y).
 // range(2,9); // [3,4,5,6,7,8]
+//  range (9,2)=> [8,7,6,5,4,3]
 var range = function(x, y) {
+  var reverseRange = false;
+  if (x === y) {
+    return [];
+  }
+  if (x > y) {
+    reverseRange = true;
+  }
+  if (x === y-1){
+    return [];
+  }
+  if(reverseRange){
+    return [x - 1].concat(range(x-1,y))
+  } else {
+    return [x + 1].concat(range(x+1,y))
+  }
 };
 
 // 7. Compute the exponent of a number.
@@ -121,6 +141,18 @@ var reverse = function(string) {
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
+  // if the length of string is 1 return true
+  if (string.length === 1 || string.length === 0){
+    return true
+  }
+  string = string.toLowerCase()
+  var length = string.length
+  if(string[0] === string[length-1]){
+    return palindrome(string.slice(1,length-1))
+  }
+  return false;
+  // if the length of sting is 2 check if first and last are same
+
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
