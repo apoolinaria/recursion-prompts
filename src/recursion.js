@@ -110,7 +110,7 @@ var range = function(x, y) {
   if (x > y) {
     reverseRange = true;
   }
-  if (x === y-1){
+  if (x === y-1 || x-1 === y){
     return [];
   }
   if(reverseRange){
@@ -126,6 +126,18 @@ var range = function(x, y) {
 // exponent(4,3); // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
 var exponent = function(base, exp) {
+  var negativeExp = false;
+  if (exp < 0){
+    negativeExp = true;
+    exp = -exp
+  }
+  if (exp === 0){
+    return 1;
+  }
+  if (negativeExp){
+    return 1 / exponent(base, exp);
+  }
+  return base * exponent(base, exp-1)
 };
 
 // 8. Determine if a number is a power of two.
@@ -133,10 +145,16 @@ var exponent = function(base, exp) {
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
 var powerOfTwo = function(n) {
+
 };
 
 // 9. Write a function that reverses a string.
 var reverse = function(string) {
+  if (string === ''){
+    // if string is empty return an empty string
+    return '';
+  }
+  return reverse(string.substr(1)) + string.charAt(0);
 };
 
 // 10. Write a function that determines if a string is a palindrome.
@@ -234,11 +252,37 @@ var countKeysInObj = function(obj, key) {
 // countValuesInObj(obj, 'r') // 2
 // countValuesInObj(obj, 'e') // 1
 var countValuesInObj = function(obj, value) {
+  var result = 0;
+  for(var key in obj){
+    if(typeof obj[key] === 'object'){
+      result += countValuesInObj(obj[key],value)
+    }
+    if(obj[key] === value){
+      result +=1;
+    }
+  }
+  return result;
 };
 
 // 24. Find all keys in an object (and nested objects) by a provided name and rename
 // them to a provided new name while preserving the value stored at that key.
 var replaceKeysInObj = function(obj, oldKey, newKey) {
+  // loop though the object
+    // if the current value is and object
+    // call the function again
+  for(var key in obj){
+     if(key === oldKey){
+      obj[newKey] = obj[key]
+      delete obj[oldKey]
+    }
+    if(typeof obj[key]==='object'){
+      replaceKeysInObj(obj[key], oldKey, newKey)
+    }
+  }
+  return obj
+  // if the current key matches the oldKey
+  // change the oldkey to be newkey
+  // return obj
 };
 
 // 25. Get the first n Fibonacci numbers. In the Fibonacci sequence, each subsequent
