@@ -145,6 +145,22 @@ var exponent = function(base, exp) {
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
 var powerOfTwo = function(n) {
+  if (n === 1) {
+    return true;
+  }
+  // divide the number by 2
+  if (n < 1) {
+    return false
+  }
+  var result = n / 2;
+
+  if (result > 0 && result !== 1) {
+    return powerOfTwo(result);
+  } else {
+    return true;
+  }
+  // call the function poweroftwo with n - result
+  // if result is not 1 return false
 
 };
 
